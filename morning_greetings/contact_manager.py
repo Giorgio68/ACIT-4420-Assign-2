@@ -144,7 +144,9 @@ class ContactsManager:
         Prints a formatted list of all contacts and their details
         """
         for contact in self._contacts:
-            print(f"Name: {contact['name']}, Email: {contact['email']}, Preferred Time: {contact['preferred_time']}")
+            print(
+                f"Name: {contact['name']}, Email: {contact['email']}, Preferred Time: {contact['preferred_time']}"
+            )
 
     def __repr__(self) -> str:
         repr_str = ""
