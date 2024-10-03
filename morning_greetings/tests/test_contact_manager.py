@@ -9,7 +9,7 @@ from ..contact_manager import ContactsManager, ImportMode
 
 class TestContactManager(unittest.TestCase):
     def __init__(self, *args, **kwargs) -> None:
-        contact_folder = Path("./contacts")
+        contact_folder = Path(".") / "contacts"
 
         self.contact_manager = ContactsManager(
             ImportMode.LIST.value
