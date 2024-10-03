@@ -6,6 +6,7 @@ import json
 from pathlib import Path, PurePath
 from enum import Enum
 from typing import Optional, Iterable
+from .logger import get_logger
 
 
 class ImportMode(Enum):
@@ -45,6 +46,7 @@ class ContactsManager:
         Constructor method
         """
         self._contacts = []
+        self._logger = get_logger()
 
         if insertion_mode & ImportMode.LIST.value:
             if contact_list is None:
@@ -52,6 +54,7 @@ class ContactsManager:
                     "Extraction mode `LIST` was chosen, but none was provided"
                 )
             self._contacts.extend(contact_list)
+            self._logger.info("Added contacts to list: %s", contact_list)
 
         if insertion_mode & ImportMode.CSV.value:
             if csv_fname is None:
@@ -93,10 +96,12 @@ class ContactsManager:
                         for json_str in json_list:
                             json_dict = json.loads(json_str)
                             self._contacts.append(json_dict)
+                            self._logger.info("Added contact to list: %s", json_dict)
 
                     else:
                         json_dict = json.load(f_json)
                         self._contacts.append(json_dict)
+                        self._logger.info("Added contact to list: %s", json_dict)
 
         if insertion_mode & ImportMode.TXT.value:
             if txt_fname is None:
@@ -130,6 +135,7 @@ class ContactsManager:
 
         contact = {"name": name, "email": email, "preferred_time": preferred_time}
         self._contacts.append(contact)
+        self._logger.info("Added contact to list: %s", contact)
 
     def remove_contact(self, name: str) -> None:
         """
@@ -139,6 +145,7 @@ class ContactsManager:
         """
 
         self._contacts = [c for c in self._contacts if c["name"] != name]
+        self._logger.info("Removed %s from contact list", name)
 
     def get_contacts(self) -> list[dict]:
         """

@@ -3,6 +3,7 @@ Module to generate and return different possible greetings
 """
 
 from random import randint
+from .logger import get_logger
 
 
 _greetings = [
@@ -24,6 +25,8 @@ def generate_message(name: str) -> str:
     """
 
     # choose a random greeting from the imported ones
-    greeting = _greetings[randint(0, len(_greetings) - 1)]
+    greeting = _greetings[randint(0, len(_greetings) - 1)].format(name=name)
 
-    return greeting.format(name=name)
+    get_logger().info("Generated new greeting: %s", greeting)
+
+    return greeting
