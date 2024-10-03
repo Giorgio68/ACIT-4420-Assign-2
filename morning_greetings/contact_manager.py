@@ -36,8 +36,10 @@ class ContactsManager:
         *,
         contact_list: Optional[list] = None,
         csv_fname: Optional[str | list[str] | Path | list[Path]] = None,
+        csv_sep: Optional[str] = None,
         json_fname: Optional[str | list[str] | Path | list[Path]] = None,
         txt_fname: Optional[str | list[str] | Path | list[Path]] = None,
+        txt_sep: Optional[str] = None,
     ) -> None:
         """
         Constructor method
@@ -60,10 +62,13 @@ class ContactsManager:
             if not isinstance(csv_fname, Iterable):
                 csv_fname = [csv_fname]
 
+            if csv_sep is None:
+                csv_sep = ","
+
             for file in csv_fname:
                 with open(file, "r", encoding="utf-8") as f_csv:
                     for line in f_csv:
-                        name, email, preferred_time = line.split(",")
+                        name, email, preferred_time = line.split(csv_sep)
                         self.add_contact(name, email, preferred_time)
 
         if insertion_mode & ImportMode.JSON.value:
@@ -105,7 +110,11 @@ class ContactsManager:
             for file in txt_fname:
                 with open(file, "r", encoding="utf-8") as f_txt:
                     for line in f_txt:
-                        name, email, preferred_time = line.split()
+                        if txt_sep is None:
+                            name, email, preferred_time = line.split()
+                        else:
+                            name, email, preferred_time = line.split(txt_sep)
+
                         self.add_contact(name, email, preferred_time)
 
     def add_contact(
