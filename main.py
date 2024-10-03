@@ -3,8 +3,12 @@ Allows the user to run `morning_greetings` by calling `python main.py`, instead 
 module directly
 """
 
-
-from morning_greetings import ContactsManager, ImportMode, generate_message, send_message
+from morning_greetings import (
+    ContactsManager,
+    ImportMode,
+    generate_message,
+    send_message,
+)
 
 
 def main() -> None:

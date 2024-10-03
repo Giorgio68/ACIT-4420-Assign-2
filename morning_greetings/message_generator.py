@@ -2,17 +2,16 @@
 Module to generate and return different possible greetings
 """
 
-
 from random import randint
 
 
 _greetings = [
-        "Good Morning, {name}! Have a great day.....!",
-        "Hello {name}! Hope your day is fantastic!",
-        "Good day, {name}",
-        "Top of the morning {name}!",
-        "Have a lovely day, {name} :)"
-    ]
+    "Good Morning, {name}! Have a great day.....!",
+    "Hello {name}! Hope your day is fantastic!",
+    "Good day, {name}",
+    "Top of the morning {name}!",
+    "Have a lovely day, {name} :)",
+]
 
 
 def generate_message(name: str) -> str:
@@ -25,6 +24,6 @@ def generate_message(name: str) -> str:
     """
 
     # choose a random greeting from the imported ones
-    greeting = _greetings[randint(0, len(_greetings)-1)]
+    greeting = _greetings[randint(0, len(_greetings) - 1)]
 
     return greeting.format(name=name)
