@@ -16,4 +16,6 @@ from .message_sender import *
 __all__ = [
     "ContactsManager",
     "ImportMode",
+    "generate_message",
+    "send_message"
 ]
