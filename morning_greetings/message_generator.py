@@ -2,9 +2,17 @@
 Module to generate and return different possible greetings
 """
 
-import json
+
 from random import randint
-from pathlib import Path
+
+
+_greetings = [
+        "Good Morning, {name}! Have a great day.....!",
+        "Hello {name}! Hope your day is fantastic!",
+        "Good day, {name}",
+        "Top of the morning {name}!",
+        "Have a lovely day, {name} :)"
+    ]
 
 
 def generate_message(name: str) -> str:
@@ -16,12 +24,7 @@ def generate_message(name: str) -> str:
     :return: A formatted string containing the greeting
     """
 
-    config_path = Path(".") / "config"
-
-    with open(config_path / "greeting_list.json", "r", encoding="utf-8") as f:
-        greetings = json.load(f)["greetings"]
-
     # choose a random greeting from the imported ones
-    greeting = greetings[randint(0, len(greetings)-1)]
+    greeting = _greetings[randint(0, len(_greetings)-1)]
 
     return greeting.format(name=name)
