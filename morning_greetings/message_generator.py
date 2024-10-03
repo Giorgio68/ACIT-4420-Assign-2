@@ -24,6 +24,9 @@ def generate_message(name: str) -> str:
     :return: A formatted string containing the greeting
     """
 
+    if not name:
+        raise ValueError("A name must be provided to generate a greeting")
+
     # choose a random greeting from the imported ones
     greeting = _greetings[randint(0, len(_greetings) - 1)].format(name=name)
 

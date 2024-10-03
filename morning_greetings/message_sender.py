@@ -3,7 +3,6 @@ This module simulates sending messages to a given email address, by printing the
 console
 """
 
-
 from .logger import get_logger
 
 

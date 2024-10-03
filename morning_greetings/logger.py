@@ -2,7 +2,6 @@
 Sets up a logger with a custom format for this package
 """
 
-
 import logging
 import logging.config
 from logging import Logger
@@ -15,20 +14,18 @@ _config = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "simple": {
-            "format": "%(levelname)s: %(message)s"
-        },
+        "simple": {"format": "%(levelname)s: %(message)s"},
         "detailed": {
             "format": "[%(levelname)s|%(module)s|L%(lineno)d] %(asctime)s: %(message)s",
-            "datefmt": "%Y-%m-%dT%H:%M:%S%z"
-        }
+            "datefmt": "%Y-%m-%dT%H:%M:%S%z",
+        },
     },
     "handlers": {
         "stdout": {
             "class": "logging.StreamHandler",
             "level": "INFO",
             "formatter": "simple",
-            "stream": "ext://sys.stdout"
+            "stream": "ext://sys.stdout",
         },
         "file": {
             "class": "logging.handlers.RotatingFileHandler",
@@ -36,18 +33,10 @@ _config = {
             "formatter": "detailed",
             "filename": "morning_greetings.log",
             "maxBytes": 10000,
-            "backupCount": 3
-        }
+            "backupCount": 3,
+        },
     },
-    "loggers": {
-        "root": {
-            "level": "DEBUG",
-            "handlers": [
-                "stdout",
-                "file"
-            ]
-        }
-    }
+    "loggers": {"root": {"level": "DEBUG", "handlers": ["stdout", "file"]}},
 }
 
 

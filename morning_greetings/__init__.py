@@ -13,4 +13,10 @@ from .message_generator import *
 from .message_sender import *
 
 # define dunder all to allow importing classes
-__all__ = ["ContactsManager", "ImportMode", "generate_message", "send_message"]
+__all__ = [
+    "ContactsManager",
+    "ImportMode",
+    "generate_message",
+    "send_message",
+    "get_logger",
+]
