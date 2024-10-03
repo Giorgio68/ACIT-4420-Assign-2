@@ -2,6 +2,7 @@
 Allows direct execution of the package by calling `python -m morning_greetings`
 """
 
+from time import sleep
 import argparse
 from .__init__ import (
     ContactsManager,
@@ -56,21 +57,41 @@ def main() -> None:
 
     for contact in contacts:
         try:
-            greetings.append({
-                "contact": contact,
-                "msg": generate_message(contact["name"]),
-            })
+            greetings.append(
+                {
+                    "contact": contact,
+                    "msg": generate_message(contact["name"]),
+                }
+            )
 
         except ValueError as e:
-            logger.exception("Received an exception when trying to create a greeting: %s", repr(e))
+            logger.exception(
+                "Received an exception when trying to create a greeting: %s", repr(e)
+            )
 
     sorted_greetings = sorted(greetings, key=lambda d: d["contact"]["preferred_time"])
+    previous_time = 0
 
     for greeting in sorted_greetings:
         try:
+            if (
+                previous_time < int(greeting["contact"]["preferred_time"])
+                or previous_time != 0
+            ):
+                previous_time = int(greeting["contact"]["preferred_time"])
+                logger.info(
+                    "It's too early to send %s a greeting, sleeping for a while...",
+                    greeting["contact"]["name"],
+                )
+                # if the contact's preferred time is higher than the current time, sleep
+                # for a few seconds
+                sleep(3)
+
             send_message(greeting["contact"]["email"], greeting["msg"])
         except ValueError as e:
-            logger.exception("Received an exception when trying to send a greeting: %s", repr(e))
+            logger.exception(
+                "Received an exception when trying to send a greeting: %s", repr(e)
+            )
 
 
 if __name__ == "__main__":

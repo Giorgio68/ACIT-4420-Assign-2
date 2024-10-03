@@ -32,7 +32,7 @@ _config = {
             "level": "DEBUG",
             "formatter": "detailed",
             "filename": "morning_greetings.log",
-            "maxBytes": 10000,
+            "maxBytes": 3_145_728,
             "backupCount": 3,
         },
     },
