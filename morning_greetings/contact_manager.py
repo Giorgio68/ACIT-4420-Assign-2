@@ -129,9 +129,7 @@ class ContactsManager:
 
                         self.add_contact(name, email, preferred_time)
 
-    def add_contact(
-        self, name: str, email: str, preferred_time: str = "0800"
-    ) -> None:
+    def add_contact(self, name: str, email: str, preferred_time: str = "0800") -> None:
         """
         This method allows a user to add a new contact to the contact list
 
@@ -140,11 +138,7 @@ class ContactsManager:
         :param preferred_time: The time to send a greeting to the contact
         """
 
-        contact = {
-            "name": name,
-            "email": email,
-            "preferred_time": preferred_time
-        }
+        contact = {"name": name, "email": email, "preferred_time": preferred_time}
         self._contacts.append(contact)
         self._logger.info("Added contact to list: %s", contact)
 
