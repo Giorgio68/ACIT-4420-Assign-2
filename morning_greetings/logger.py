@@ -40,9 +40,10 @@ _config = {
 }
 
 
-def setup_logging() -> None:
+def _setup_logging() -> None:
     """
-    Loads the logging config for the program's execution
+    Loads the logging config for the program's execution. Note that this function is only executed
+    once, during the first time this module is imported
     """
     logging.config.dictConfig(config=_config)
     _logger.debug("Logging configuration loaded successfully")
@@ -57,4 +58,4 @@ def get_logger() -> Logger:
     return _logger
 
 
-setup_logging()
+_setup_logging()
