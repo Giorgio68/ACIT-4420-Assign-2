@@ -1,10 +1,10 @@
 """
-This module is used to manage all contacts to which morning greetings should be sent
+This module is used to manage a list of contacts, from a list, CSV, JSON or text file
 """
 
 import json
-from pathlib import Path, PurePath
 from enum import IntEnum
+from pathlib import Path, PurePath
 from typing import Optional, Iterable
 from .logger import get_logger
 
@@ -28,7 +28,11 @@ class ContactsManager:
 
     :param insertion_mode: Whether to extract the contacts from a list, csv, json, etc.
     :param contact_list: A list of contacts, if provided
-    :param file_name: The file to extract contacts from, if provided
+    :param csv_fname: A CSV file to extract contacts from
+    :param csv_sep: Specify a custom CSV separator if it isn't the default comma
+    :param json_fname: A JSON/JSONL file to extract contacts from
+    :param txt_fname: A text file to extract contacts from
+    :param txt_sep: Specify a custom separator (default is a whitespace)
     """
 
     def __init__(
