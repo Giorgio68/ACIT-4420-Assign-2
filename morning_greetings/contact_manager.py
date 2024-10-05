@@ -62,6 +62,7 @@ class ContactsManager:
                     "Extraction mode `CSV` was chosen, but no file name was provided"
                 )
 
+            # if we didn't pass a list of files, create a list to iterate over
             if not isinstance(csv_fname, Iterable):
                 csv_fname = [csv_fname]
 
@@ -80,17 +81,21 @@ class ContactsManager:
                     "Extraction mode `JSON` was chosen, but no file name was provided"
                 )
 
+            # if we didn't pass a list of files, create a list to iterate over
             if not isinstance(json_fname, Iterable):
                 json_fname = [json_fname]
 
             for file in json_fname:
                 with open(file, "r", encoding="utf-8") as f_json:
+                    # if passing a jsonl file, we need to handle it differently from a normal
+                    # json, so check the extension
                     if isinstance(file, PurePath):
                         is_jsonl = file.suffix.lower() == ".jsonl"
                     elif isinstance(file, str):
                         is_jsonl = file.endswith(".jsonl")
 
                     if is_jsonl:
+                        # makes a list of each line (a.k.a. each json stored)
                         json_list = list(f_json)
 
                         for json_str in json_list:
@@ -99,6 +104,7 @@ class ContactsManager:
                             self._logger.info("Added contact to list: %s", json_dict)
 
                     else:
+                        # if a json file is provided, we can load it directly
                         json_dict = json.load(f_json)
                         self._contacts.append(json_dict)
                         self._logger.info("Added contact to list: %s", json_dict)
@@ -109,6 +115,7 @@ class ContactsManager:
                     "Extraction mode `TXT` was chosen, but no file name was provided"
                 )
 
+            # if we didn't pass a list of files, create a list to iterate over
             if not isinstance(txt_fname, Iterable):
                 txt_fname = [txt_fname]
 
@@ -123,7 +130,7 @@ class ContactsManager:
                         self.add_contact(name, email, preferred_time)
 
     def add_contact(
-        self, name: str, email: str, preferred_time: str = "08:00 AM"
+        self, name: str, email: str, preferred_time: str = "0800"
     ) -> None:
         """
         This method allows a user to add a new contact to the contact list
@@ -133,7 +140,11 @@ class ContactsManager:
         :param preferred_time: The time to send a greeting to the contact
         """
 
-        contact = {"name": name, "email": email, "preferred_time": preferred_time}
+        contact = {
+            "name": name,
+            "email": email,
+            "preferred_time": preferred_time
+        }
         self._contacts.append(contact)
         self._logger.info("Added contact to list: %s", contact)
 

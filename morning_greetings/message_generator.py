@@ -27,7 +27,7 @@ def generate_message(name: str) -> str:
     if not name:
         raise ValueError("A name must be provided to generate a greeting")
 
-    # choose a random greeting from the imported ones
+    # choose a random greeting from the imported ones and format it
     greeting = _greetings[randint(0, len(_greetings) - 1)].format(name=name)
 
     get_logger().info("Generated new greeting: %s", greeting)
