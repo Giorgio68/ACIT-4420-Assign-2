@@ -18,5 +18,4 @@ setup(
     packages=["morning_greetings"],
     long_description=read("README.md"),
     test_suite="morning_greetings.tests",
-    # install_requires=['peppercorn'],
 )
