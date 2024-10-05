@@ -30,17 +30,17 @@ def main() -> None:
     txt_fname = None
 
     if args.csv:
-        import_mode |= ImportMode.CSV.value
+        import_mode |= ImportMode.CSV
         csv_fname = args.csv
         logger.debug("Provided CSV files for import: %s", csv_fname)
 
     if args.json:
-        import_mode |= ImportMode.JSON.value
+        import_mode |= ImportMode.JSON
         json_fname = args.json
         logger.debug("Provided JSON files for import: %s", json_fname)
 
     if args.txt:
-        import_mode |= ImportMode.TXT.value
+        import_mode |= ImportMode.TXT
         txt_fname = args.txt
         logger.debug("Provided TXT files for import: %s", txt_fname)
 

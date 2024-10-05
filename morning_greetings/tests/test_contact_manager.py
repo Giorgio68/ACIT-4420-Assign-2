@@ -12,10 +12,10 @@ class TestContactManager(unittest.TestCase):
         contact_folder = Path(".") / "contacts"
 
         self.contact_manager = ContactsManager(
-            ImportMode.LIST.value
-            | ImportMode.CSV.value
-            | ImportMode.JSON.value
-            | ImportMode.TXT.value,
+            ImportMode.LIST
+            | ImportMode.CSV
+            | ImportMode.JSON
+            | ImportMode.TXT,
             contact_list=[
                 {
                     "name": "Giorgio",

@@ -4,12 +4,12 @@ This module is used to manage all contacts to which morning greetings should be 
 
 import json
 from pathlib import Path, PurePath
-from enum import Enum
+from enum import IntEnum
 from typing import Optional, Iterable
 from .logger import get_logger
 
 
-class ImportMode(Enum):
+class ImportMode(IntEnum):
     """
     Used to specify which mode should be used to add contacts
     """
@@ -48,7 +48,7 @@ class ContactsManager:
         self._contacts = []
         self._logger = get_logger()
 
-        if insertion_mode & ImportMode.LIST.value:
+        if insertion_mode & ImportMode.LIST:
             if contact_list is None:
                 raise ValueError(
                     "Extraction mode `LIST` was chosen, but none was provided"
@@ -56,7 +56,7 @@ class ContactsManager:
             self._contacts.extend(contact_list)
             self._logger.info("Added contacts to list: %s", contact_list)
 
-        if insertion_mode & ImportMode.CSV.value:
+        if insertion_mode & ImportMode.CSV:
             if csv_fname is None:
                 raise ValueError(
                     "Extraction mode `CSV` was chosen, but no file name was provided"
@@ -74,7 +74,7 @@ class ContactsManager:
                         name, email, preferred_time = line.split(csv_sep)
                         self.add_contact(name, email, preferred_time)
 
-        if insertion_mode & ImportMode.JSON.value:
+        if insertion_mode & ImportMode.JSON:
             if json_fname is None:
                 raise ValueError(
                     "Extraction mode `JSON` was chosen, but no file name was provided"
@@ -103,7 +103,7 @@ class ContactsManager:
                         self._contacts.append(json_dict)
                         self._logger.info("Added contact to list: %s", json_dict)
 
-        if insertion_mode & ImportMode.TXT.value:
+        if insertion_mode & ImportMode.TXT:
             if txt_fname is None:
                 raise ValueError(
                     "Extraction mode `TXT` was chosen, but no file name was provided"
