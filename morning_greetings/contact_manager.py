@@ -33,7 +33,7 @@ class ContactsManager:
 
     def __init__(
         self,
-        insertion_mode: ImportMode = ImportMode.LIST,
+        import_mode: ImportMode = ImportMode.LIST,
         *,
         contact_list: Optional[list] = None,
         csv_fname: Optional[str | list[str] | Path | list[Path]] = None,
@@ -48,7 +48,14 @@ class ContactsManager:
         self._contacts = []
         self._logger = get_logger()
 
-        if insertion_mode & ImportMode.LIST:
+        if not 0 < import_mode < 16:
+            # regardless of the combination of import modes, we shouldn't get a number outside
+            # the range [1, 15], which means we should raise if one is passed (N.B. in binary,
+            # combining 1, 2, 4, 8 (0b0001, 0b0010, 0b0100, 0b1000 respectively) will give back
+            # 15 (0b1111), hence the upper limit)
+            raise ValueError("An invalid contact extraction mode was provided")
+
+        if import_mode & ImportMode.LIST:
             if contact_list is None:
                 raise ValueError(
                     "Extraction mode `LIST` was chosen, but none was provided"
@@ -56,7 +63,7 @@ class ContactsManager:
             self._contacts.extend(contact_list)
             self._logger.info("Added contacts to list: %s", contact_list)
 
-        if insertion_mode & ImportMode.CSV:
+        if import_mode & ImportMode.CSV:
             if csv_fname is None:
                 raise ValueError(
                     "Extraction mode `CSV` was chosen, but no file name was provided"
@@ -75,7 +82,7 @@ class ContactsManager:
                         name, email, preferred_time = line.split(csv_sep)
                         self.add_contact(name, email, preferred_time)
 
-        if insertion_mode & ImportMode.JSON:
+        if import_mode & ImportMode.JSON:
             if json_fname is None:
                 raise ValueError(
                     "Extraction mode `JSON` was chosen, but no file name was provided"
@@ -109,7 +116,7 @@ class ContactsManager:
                         self._contacts.append(json_dict)
                         self._logger.info("Added contact to list: %s", json_dict)
 
-        if insertion_mode & ImportMode.TXT:
+        if import_mode & ImportMode.TXT:
             if txt_fname is None:
                 raise ValueError(
                     "Extraction mode `TXT` was chosen, but no file name was provided"
@@ -149,7 +156,8 @@ class ContactsManager:
         :param name: The contact to be removed
         """
 
-        self._contacts = [c for c in self._contacts if c["name"] != name]
+        # filter out any contacts which match the provided name
+        self._contacts = list(filter(lambda c: c["name"] != name, self._contacts))
         self._logger.info("Removed %s from contact list", name)
 
     def get_contacts(self) -> list[dict]:

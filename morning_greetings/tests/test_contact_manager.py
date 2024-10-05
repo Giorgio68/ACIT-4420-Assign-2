@@ -32,12 +32,15 @@ class TestContactManager(unittest.TestCase):
 
     def test_print_contacts(self):
         print(repr(self.contact_manager))
+        print(self.contact_manager.get_contacts())
 
     def test_new_contact(self):
-        self.contact_manager.add_contact("New friend", "fr@example.com", "06:00AM")
+        self.contact_manager.add_contact("New friend", "fr@example.com", "0600")
+        print(self.contact_manager.get_contacts())
 
     def test_remove_contact(self):
         self.contact_manager.remove_contact("New friend")
+        print(self.contact_manager.get_contacts())
 
     def test_get_contacts(self):
         print(self.contact_manager.get_contacts())
