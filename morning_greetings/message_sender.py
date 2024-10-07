@@ -3,6 +3,7 @@ This module simulates sending messages to a given email address, by printing the
 console
 """
 
+import re
 from .logger import get_logger
 
 
@@ -20,11 +21,11 @@ def send_message(email: str, message: str) -> None:
     if not isinstance(email, str):
         raise ValueError("`email` has an invalid data")
 
+    if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+        raise ValueError("An invalid email address was provided")
+
     if not message:
         raise ValueError("No message body was provided")
-
-    if not isinstance(message, str):
-        raise ValueError("`message` has an invalid data")
 
     # Simulate sending a message (replace this with actual email sending logic if needed)
     print(f"Sending message to {email}: {message}")
