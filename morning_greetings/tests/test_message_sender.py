@@ -13,3 +13,7 @@ class TestContactManager(unittest.TestCase):
         # make sure that an exception is raised if an empty email address or body is provided
         self.assertRaises(ValueError, send_message, "test@email.org", "")
         self.assertRaises(ValueError, send_message, "", "Hello")
+
+        # ensure correct data type has to be passed
+        self.assertRaises(ValueError, send_message, "test@email.org", 123)
+        self.assertRaises(ValueError, send_message, True, "Hello")

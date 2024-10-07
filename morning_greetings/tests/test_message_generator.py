@@ -11,3 +11,7 @@ class TestContactManager(unittest.TestCase):
         # test that we get different messages each time
         for _ in range(10):
             print(generate_message("Giorgio"))
+
+        # make sure we can't pass bogus values
+        self.assertRaises(ValueError, generate_message, "")
+        self.assertRaises(ValueError, generate_message, 123)

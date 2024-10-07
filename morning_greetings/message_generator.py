@@ -27,6 +27,9 @@ def generate_message(name: str) -> str:
     if not name:
         raise ValueError("A name must be provided to generate a greeting")
 
+    if not isinstance(name, str):
+        raise ValueError("`name` has an invalid data type")
+
     # choose a random greeting from the imported ones and format it
     greeting = _greetings[randint(0, len(_greetings) - 1)].format(name=name)
 

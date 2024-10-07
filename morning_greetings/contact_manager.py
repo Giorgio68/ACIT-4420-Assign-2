@@ -57,10 +57,10 @@ class ContactsManager:
             # the range [1, 15], which means we should raise if one is passed (N.B. in binary,
             # combining 1, 2, 4, 8 (0b0001, 0b0010, 0b0100, 0b1000 respectively) will give back
             # 15 (0b1111), hence the upper limit)
-            raise ValueError("An invalid contact extraction mode was provided")
+            raise ValueError("An invalid contact import mode was provided")
 
         if import_mode & ImportMode.LIST:
-            if contact_list is None:
+            if not contact_list:
                 raise ValueError(
                     "Extraction mode `LIST` was chosen, but none was provided"
                 )
@@ -68,7 +68,7 @@ class ContactsManager:
             self._logger.info("Added contacts to list: %s", contact_list)
 
         if import_mode & ImportMode.CSV:
-            if csv_fname is None:
+            if not csv_fname:
                 raise ValueError(
                     "Extraction mode `CSV` was chosen, but no file name was provided"
                 )
@@ -87,7 +87,7 @@ class ContactsManager:
                         self.add_contact(name, email, preferred_time)
 
         if import_mode & ImportMode.JSON:
-            if json_fname is None:
+            if not json_fname:
                 raise ValueError(
                     "Extraction mode `JSON` was chosen, but no file name was provided"
                 )
@@ -121,7 +121,7 @@ class ContactsManager:
                         self._logger.info("Added contact to list: %s", json_dict)
 
         if import_mode & ImportMode.TXT:
-            if txt_fname is None:
+            if not txt_fname:
                 raise ValueError(
                     "Extraction mode `TXT` was chosen, but no file name was provided"
                 )
@@ -149,6 +149,15 @@ class ContactsManager:
         :param preferred_time: The time to send a greeting to the contact
         """
 
+        if not name:
+            raise ValueError("No name was provided")
+
+        if not email:
+            raise ValueError("No email was provided")
+
+        if not preferred_time:
+            raise ValueError("No preferred_time was provided")
+
         contact = {"name": name, "email": email, "preferred_time": preferred_time}
         self._contacts.append(contact)
         self._logger.info("Added contact to list: %s", contact)
@@ -159,6 +168,9 @@ class ContactsManager:
 
         :param name: The contact to be removed
         """
+
+        if not list(filter(lambda c: c["name"] == name, self._contacts)):
+            raise ValueError("A non-existant contact name was given")
 
         # filter out any contacts which match the provided name
         self._contacts = list(filter(lambda c: c["name"] != name, self._contacts))

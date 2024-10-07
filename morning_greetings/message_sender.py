@@ -17,8 +17,14 @@ def send_message(email: str, message: str) -> None:
     if not email:
         raise ValueError("No email address was provided")
 
+    if not isinstance(email, str):
+        raise ValueError("`email` has an invalid data")
+
     if not message:
         raise ValueError("No message body was provided")
+
+    if not isinstance(message, str):
+        raise ValueError("`message` has an invalid data")
 
     # Simulate sending a message (replace this with actual email sending logic if needed)
     print(f"Sending message to {email}: {message}")
