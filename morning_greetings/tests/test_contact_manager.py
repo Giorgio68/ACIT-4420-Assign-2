@@ -15,7 +15,7 @@ contact_manager = ContactsManager(
         {
             "name": "Giorgio",
             "email": "s351995@oslomet.no",
-            "preferred_time": "10:00AM",
+            "preferred_time": "1000",
         }
     ],
     csv_fname=contact_folder / "contacts.csv",
@@ -25,6 +25,7 @@ contact_manager = ContactsManager(
     ],
     txt_fname=contact_folder / "contacts.txt",
 )
+
 
 class TestContactManager(unittest.TestCase):
     def test_print_contacts(self):
@@ -36,9 +37,13 @@ class TestContactManager(unittest.TestCase):
         print(contact_manager.get_contacts())
 
         # make sure it errors when not passing valid parameters
-        self.assertRaises(ValueError, contact_manager.add_contact, "", "abc@example.com", "0800")
+        self.assertRaises(
+            ValueError, contact_manager.add_contact, "", "abc@example.com", "0800"
+        )
         self.assertRaises(ValueError, contact_manager.add_contact, "George", "", "0800")
-        self.assertRaises(ValueError, contact_manager.add_contact, "George", "abc@example.com", "")
+        self.assertRaises(
+            ValueError, contact_manager.add_contact, "George", "abc@example.com", ""
+        )
 
     def test_remove_contact(self):
         contact_manager.remove_contact("New friend")

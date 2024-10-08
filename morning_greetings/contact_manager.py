@@ -2,6 +2,7 @@
 This module is used to manage a list of contacts, from a list, CSV, JSON or text file
 """
 
+import re
 import json
 from enum import IntEnum
 from pathlib import Path, PurePath
@@ -111,14 +112,20 @@ class ContactsManager:
 
                         for json_str in json_list:
                             json_dict = json.loads(json_str)
-                            self._contacts.append(json_dict)
-                            self._logger.info("Added contact to list: %s", json_dict)
+                            self.add_contact(
+                                json_dict["name"],
+                                json_dict["email"],
+                                json_dict["preferred_time"],
+                            )
 
                     else:
                         # if a json file is provided, we can load it directly
                         json_dict = json.load(f_json)
-                        self._contacts.append(json_dict)
-                        self._logger.info("Added contact to list: %s", json_dict)
+                        self.add_contact(
+                            json_dict["name"],
+                            json_dict["email"],
+                            json_dict["preferred_time"],
+                        )
 
         if import_mode & ImportMode.TXT:
             if not txt_fname:
@@ -155,8 +162,14 @@ class ContactsManager:
         if not email:
             raise ValueError("No email was provided")
 
+        if not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
+            raise ValueError("An invalid email address was provided")
+
         if not preferred_time:
             raise ValueError("No preferred_time was provided")
+
+        if not re.match(r"\d{4}", preferred_time):
+            raise ValueError("An invalid preferred time was provided")
 
         contact = {"name": name, "email": email, "preferred_time": preferred_time}
         self._contacts.append(contact)

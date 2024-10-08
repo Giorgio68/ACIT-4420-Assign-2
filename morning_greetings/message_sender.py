@@ -21,7 +21,7 @@ def send_message(email: str, message: str) -> None:
     if not isinstance(email, str):
         raise ValueError("`email` has an invalid data")
 
-    if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+    if not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
         raise ValueError("An invalid email address was provided")
 
     if not message:
