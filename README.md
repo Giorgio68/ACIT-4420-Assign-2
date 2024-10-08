@@ -2,8 +2,12 @@
 
 ## Installation
 
-Installation is relatively straight-forward: simply run
-```pip install .```
+Installation is relatively straight-forward: once the repository is cloned, simply run
+
+```bash
+python -m pip install .
+```
+
 to install the package.
 
 ## Tests
