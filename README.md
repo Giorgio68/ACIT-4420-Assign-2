@@ -12,8 +12,13 @@ to install the package.
 
 ## Tests
 
-Unit tests can be run by calling
-```python setup.py test```
+Unit tests can be run by calling:
+
+```bash
+python setup.py test
+```
+
+If all tests work, it should print `OK` at the end.
 
 ## Importing contacts
 

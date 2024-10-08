@@ -44,6 +44,8 @@ class TestContactManager(unittest.TestCase):
         self.assertRaises(
             ValueError, contact_manager.add_contact, "George", "abc@example.com", ""
         )
+        self.assertRaises(ValueError, contact_manager.add_contact, "George", "invalid_email", "0800")
+        self.assertRaises(ValueError, contact_manager.add_contact, "George", "abc@example.com", "invalid_time")
 
     def test_remove_contact(self):
         contact_manager.remove_contact("New friend")
