@@ -15,6 +15,7 @@ class ImportMode(IntEnum):
     Used to specify which mode should be used to add contacts
     """
 
+    NONE = 0
     LIST = 1
     CSV = 2
     JSON = 4
@@ -38,7 +39,7 @@ class ContactsManager:
 
     def __init__(
         self,
-        import_mode: ImportMode = ImportMode.LIST,
+        import_mode: ImportMode = ImportMode.NONE,
         *,
         contact_list: Optional[list] = None,
         csv_fname: Optional[str | list[str] | Path | list[Path]] = None,
@@ -53,12 +54,16 @@ class ContactsManager:
         self._contacts = []
         self._logger = get_logger()
 
-        if not 0 < import_mode < 16:
+        if not -1 < import_mode < 16:
             # regardless of the combination of import modes, we shouldn't get a number outside
             # the range [1, 15], which means we should raise if one is passed (N.B. in binary,
             # combining 1, 2, 4, 8 (0b0001, 0b0010, 0b0100, 0b1000 respectively) will give back
             # 15 (0b1111), hence the upper limit)
             raise ValueError("An invalid contact import mode was provided")
+
+        if import_mode == ImportMode.NONE:
+            self._logger.info("Created empty contact list")
+            return
 
         if import_mode & ImportMode.LIST:
             if not contact_list:
@@ -105,6 +110,8 @@ class ContactsManager:
                         is_jsonl = file.suffix.lower() == ".jsonl"
                     elif isinstance(file, str):
                         is_jsonl = file.endswith(".jsonl")
+                    else:
+                        is_jsonl = False
 
                     if is_jsonl:
                         # makes a list of each line (a.k.a. each json stored)
@@ -223,3 +230,6 @@ class ContactsManager:
             repr_str += f"Name: {contact['name']}, Email: {contact['email']}, Preferred Time: {contact['preferred_time']}\n"
 
         return repr_str
+
+    def __bool__(self) -> bool:
+        return bool(self._contacts)

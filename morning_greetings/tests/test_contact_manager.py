@@ -57,6 +57,10 @@ class TestContactManager(unittest.TestCase):
     def test_get_contacts(self):
         print(contact_manager.get_contacts())
 
+    def test_boolean(self):
+        self.assertTrue(bool(contact_manager))
+        self.assertFalse(bool(ContactsManager(ImportMode.NONE)))
+
 
 if __name__ == "__main__":
     unittest.main()
