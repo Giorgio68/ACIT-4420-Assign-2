@@ -186,6 +186,59 @@ class ContactsManager:
         self._contacts.append(contact)
         self._logger.info("Added contact to list: %s", contact)
 
+    def get_contact(self, name: str) -> dict[str] | None:
+        """
+        Retrieves a specified contact
+
+        :param name: The contact to retrieve
+        :return: The `dict` object storing the contact itself, or `None` if no contact is found
+        """
+        for contact in self._contacts:
+            if contact["name"] == name:
+                return contact
+
+        self._logger.warning("Contact %s does not exist", name)
+        return None
+
+    def modify_contact(
+        self,
+        name: str,
+        new_name: Optional[str] = None,
+        email: Optional[str] = None,
+        preferred_time: Optional[str] = None,
+    ) -> None:
+        """
+        Allows a user to modify a contact's fields, as desired
+
+        :param name: The contact to modify
+        :param new_name: A new name for the contact
+        :param email: The new email address
+        :param preferred_time: The new preferred time for sending
+        """
+        if not name:
+            raise ValueError("No name was provided")
+
+        contact = self.get_contact(name)
+        if contact is None:
+            raise ValueError("An invalid contact name was provided")
+
+        if new_name:
+            contact["name"] = new_name
+
+        if email:
+            if not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
+                raise ValueError("An invalid email address was provided")
+
+            contact["email"] = email
+
+        if preferred_time:
+            if not re.match(r"\d{4}", preferred_time):
+                raise ValueError("An invalid preferred time was provided")
+
+            contact["preferred_time"] = preferred_time
+
+        self._logger.info("Changed contact %s to: %s", name, contact)
+
     def remove_contact(self, name: str) -> None:
         """
         Removes a contact from the contact list. Note that this function is not very efficient

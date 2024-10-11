@@ -72,6 +72,16 @@ class TestContactManager(unittest.TestCase):
         self.assertTrue(bool(contact_manager))
         self.assertFalse(bool(ContactsManager(ImportMode.NONE)))
 
+    def test_modify_contact(self):
+        contact_manager.modify_contact(
+            "Giorgio", "New Giorgio", "s351995+giorgio@oslomet.no", "0900"
+        )
+        print(contact_manager.get_contact("New Giorgio"))
+
+    def test_get_contact(self):
+        self.assertTrue(contact_manager.get_contact("Chris") is not None)
+        self.assertTrue(contact_manager.get_contact("Invalid name") is None)
+
 
 if __name__ == "__main__":
     unittest.main()
