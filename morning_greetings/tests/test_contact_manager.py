@@ -44,8 +44,19 @@ class TestContactManager(unittest.TestCase):
         self.assertRaises(
             ValueError, contact_manager.add_contact, "George", "abc@example.com", ""
         )
-        self.assertRaises(ValueError, contact_manager.add_contact, "George", "invalid_email", "0800")
-        self.assertRaises(ValueError, contact_manager.add_contact, "George", "abc@example.com", "invalid_time")
+        self.assertRaises(
+            ValueError, contact_manager.add_contact, "George", "invalid_email", "0800"
+        )
+        self.assertRaises(
+            ValueError,
+            contact_manager.add_contact,
+            "George",
+            "abc@example.com",
+            "invalid_time",
+        )
+
+        # make sure duplicates cannot be added
+        contact_manager.add_contact("New friend", "rf@example.com", "0700")
 
     def test_remove_contact(self):
         contact_manager.remove_contact("New friend")

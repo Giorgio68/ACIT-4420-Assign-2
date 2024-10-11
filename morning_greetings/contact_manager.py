@@ -166,6 +166,10 @@ class ContactsManager:
         if not name:
             raise ValueError("No name was provided")
 
+        if self._contact_exists(name):
+            self._logger.warning("Contact %s exists already", name)
+            return
+
         if not email:
             raise ValueError("No email was provided")
 
@@ -191,12 +195,21 @@ class ContactsManager:
         :param name: The contact to be removed
         """
 
-        if not list(filter(lambda c: c["name"] == name, self._contacts)):
+        if not self._contact_exists(name):
             raise ValueError("A non-existant contact name was given")
 
         # filter out any contacts which match the provided name
         self._contacts = list(filter(lambda c: c["name"] != name, self._contacts))
         self._logger.info("Removed %s from contact list", name)
+
+    def _contact_exists(self, name: str) -> bool:
+        """
+        Checks whether a contact already exists or not
+
+        :param name: The name to check
+        :return: A boolean indicating if a contacts is stored or not
+        """
+        return bool(list(filter(lambda c: c["name"] == name, self._contacts)))
 
     def get_contacts(self) -> list[dict]:
         """
