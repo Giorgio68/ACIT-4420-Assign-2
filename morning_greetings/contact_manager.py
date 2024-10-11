@@ -188,7 +188,7 @@ class ContactsManager:
 
     def get_contact(self, name: str) -> dict[str] | None:
         """
-        Retrieves a specified contact
+        Retrieves a specified contact. Note that the contact returned is a reference, not a copy
 
         :param name: The contact to retrieve
         :return: The `dict` object storing the contact itself, or `None` if no contact is found
