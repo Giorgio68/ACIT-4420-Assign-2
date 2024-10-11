@@ -241,9 +241,7 @@ class ContactsManager:
 
     def remove_contact(self, name: str) -> None:
         """
-        Removes a contact from the contact list. Note that this function is not very efficient
-        (O(2n)) since we have to go through the contact list twice to make sure we're not removing
-        a non-existant contact.
+        Removes a contact from the contact list.
 
         :param name: The contact to be removed
         """
